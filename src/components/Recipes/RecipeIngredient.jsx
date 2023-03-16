@@ -13,11 +13,11 @@ const RecipeIngredient = ({ ingredient, initialServings, servings }) => {
     .split(" ")
     .map((item) => {
       if (Number.parseFloat(item)) {
-        return;
+        return '';
       }
       return item;
     })
-    .join(" ");
+    .join(" ").trim();
 
   return (
     <li className="flex items-start gap-3 text-[1.1rem] font-light justify-center md:justify-start">
