@@ -46,7 +46,7 @@ const RecipeServings = ({
     <div className="py-[4rem] mt-8 px-8 max-w-[100%] lg:max-w-[70%] mx-auto">
       <ul className="flex flex-wrap text-lg">
         <li className=" font-light flex gap-2  items-center basis-full order-last sm:order-none sm:flex-none">
-          <BiTimeFive className="text-3xl text-secondary-500" />
+          <BiTimeFive className="text-3xl text-secondary-500 -ml-[6px] sm:ml-0" />
           <p>
             <span className="font-bold">{cookingTime}</span>{" "}
             <span>Minutes</span>

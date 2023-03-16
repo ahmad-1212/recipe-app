@@ -40,12 +40,12 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex  items-center justify-between bg-gray-300 h-[93px] px-2 ">
+      <header className="flex  items-center justify-between bg-gray-300 h-[65px] sm:h-[93px] px-2 ">
         <img
           src={Logo}
           alt="Logo"
           onClick={handleClick}
-          className="ml-5 w-[50px] h-[50px] cursor-pointer"
+          className="md:ml-5 w-[50px] h-[50px] cursor-pointer"
         />
 
         <ul className={`${styles} text-sm md:text-base uppercase`}>
