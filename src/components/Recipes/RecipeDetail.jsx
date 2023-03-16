@@ -24,7 +24,7 @@ const RecipeDetail = ({ recipe }) => {
 
   useEffect(() => {
     setCurrentRecipeId(id);
-  }, []);
+  }, [id,setCurrentRecipeId]);
 
   return (
     <section className="bg-gray-400 ">
