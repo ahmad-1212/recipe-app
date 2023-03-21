@@ -57,8 +57,9 @@ To use Recipe App, follow these steps:
 
 
 
-If you would like to deploy Recipe App to a production server, you can run the following command:
 
+
+If you would like to deploy Recipe App to a production server, you can run the following command:
 
 Copy code
 `
@@ -87,4 +88,4 @@ Recipe App was built using the following technologies:
 
 ## Conclusion
 
-Thank you for using Recipe App! We hope you find it useful for managing your recipes and discovering new dishes. If you have any feedback, suggestions, or questions, please feel free to contact us. We would love to hear from you!
+Thank you for using Recipe App! I hope you find it useful for managing your recipes and discovering new dishes. If you have any feedback, suggestions, or questions, please feel free to contact me. I would love to hear from you!
