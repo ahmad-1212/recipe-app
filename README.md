@@ -36,7 +36,9 @@ To use Recipe App, follow these steps:
 If you would like to deploy Recipe App to a production server, you can run the following command:
 
 Copy code
-```npm run build```
+```bash 
+npm run build```<br>
+
 This will create a production-ready version of Recipe App in the build directory. You can then deploy this directory to your production server using any hosting service.
 
 
