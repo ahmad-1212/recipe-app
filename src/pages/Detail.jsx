@@ -31,10 +31,6 @@ const Detail = () => {
       });
   }, [recipeId]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <>
       {loading && !error && <Spinner />}

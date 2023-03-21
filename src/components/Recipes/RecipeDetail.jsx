@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import RecipeServings from "./RecipeServings";
 import RecipeIngredient from "./RecipeIngredient";
-import { RecipeContext } from "../../context/recipe-context";
 import { HiOutlineArrowRight } from "react-icons/hi";
+import useRecipeContext from "../../hooks/useRecipeContext";
 
-const RecipeDetail = ({ recipe }) => {
+const RecipeDetail = ({ recipe, myRecipe }) => {
   const {
     title,
     id,
@@ -16,10 +16,16 @@ const RecipeDetail = ({ recipe }) => {
     source_url: direction,
   } = recipe;
   const [servings, setServings] = useState(initialServings);
-  const { bookmarkHandler, setCurrentRecipeId } = useContext(RecipeContext);
+  const recipeContext = useRecipeContext();
+  const { bookmarkDispatch, setCurrentRecipeId } = recipeContext;
 
-  const handleBookmark = () => {
-    bookmarkHandler({ url, id, publisher, title });
+  // Adding or Removing Bookmark Items
+  const handleBookmark = (add = true) => {
+    if (add) {
+      bookmarkDispatch({ type: "ADD", payload: { url, id, publisher, title } });
+    } else {
+      bookmarkDispatch({ type: "REMOVE", payload: id });
+    }
   };
 
   useEffect(() => {
@@ -44,6 +50,7 @@ const RecipeDetail = ({ recipe }) => {
         cookingTime={cookingTime}
         onHandleBookmark={handleBookmark}
         id={id}
+        myRecipe={myRecipe}
       />
 
       {ingredients && (
@@ -63,25 +70,27 @@ const RecipeDetail = ({ recipe }) => {
           </ul>
         </div>
       )}
-      <div className="py-[4.5rem] w-[90%] md:w-[70%] m-auto flex flex-col items-center gap-9">
-        <h2 className="text-2xl uppercase text-secondary-500">
-          how to cook it
-        </h2>
-        <p className=" text-gray-800 font-light text-[1.2rem] text-center">
-          This recipe was carefully designed and tested by{" "}
-          <span className="font-bold">{publisher}</span>. Please check out
-          directions at their website.
-        </p>
-        <a
-          href={direction}
-          target="_blank"
-          rel="noreferrer"
-          className="bg-gradient-to-br from-primary-500 to-secondary-500 text-white uppercase flex items-center gap-2 py-4 px-8 rounded-full text-base hover:scale-105 duration-200"
-        >
-          <span>directions</span>
-          <HiOutlineArrowRight className="text-base text-white" />
-        </a>
-      </div>
+      {!myRecipe && (
+        <div className="py-[4.5rem] w-[90%] md:w-[70%] m-auto flex flex-col items-center gap-9">
+          <h2 className="text-2xl uppercase text-secondary-500">
+            how to cook it
+          </h2>
+          <p className=" text-gray-800 font-light text-[1.2rem] text-center">
+            This recipe was carefully designed and tested by{" "}
+            <span className="font-bold">{publisher}</span>. Please check out
+            directions at their website.
+          </p>
+          <a
+            href={direction}
+            target="_blank"
+            rel="noreferrer"
+            className="bg-gradient-to-br from-primary-500 to-secondary-500 text-white uppercase flex items-center gap-2 py-4 px-8 rounded-full text-base hover:scale-105 duration-200"
+          >
+            <span>directions</span>
+            <HiOutlineArrowRight className="text-base text-white" />
+          </a>
+        </div>
+      )}
     </section>
   );
 };

@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import useRecipeContext from "../hooks/useRecipeContext";
 import Recipes from "../components/Recipes/Recipes";
-import { RecipeContext } from "../context/recipe-context";
 import { BASE_URL } from "../constants";
 import { FiSearch, FiSmile } from "react-icons/fi";
 import { TbAlertTriangle } from "react-icons/tb";
@@ -8,12 +8,12 @@ import { TbAlertTriangle } from "react-icons/tb";
 const API_KEY = process.env.REACT_APP_RECIPE_API_KEY;
 
 const Home = () => {
-  const { query, setQuery, setCurrentRecipeId } = useContext(RecipeContext);
+  const { query, setQuery, setCurrentRecipeId } = useRecipeContext();
   const [inputActive, setInputActive] = useState(false);
   const [value, setValue] = useState("");
   const [recipes, setRecipes] = useState();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const inputRef = useRef();
 
   const changeInputHandler = () => {
@@ -47,6 +47,7 @@ const Home = () => {
       .catch((err) => {
         setLoading(false);
         setError(err);
+        setRecipes(null);
       });
   }, [query]);
 
@@ -83,14 +84,14 @@ const Home = () => {
       {!recipes && !loading && !error && (
         <div className="mt-[200px] text-secondary-500 flex flex-col gap-3 items-center justify-center">
           <FiSmile className="text-4xl text-secondary-500" />
-          <h4 className="text-gray-900 text-2xl text-center">
+          <h4 className="text-gray-900 text-base md:text-2xl text-center px-1 ">
             Start by searching for a recipe or an ingredient. Have fun!
           </h4>
         </div>
       )}
 
       {!recipes && !loading && error && (
-        <div className="mt-[200px] text-secondary-500 flex flex-col gap-3 items-center justify-center">
+        <div className="mt-[200px] text-secondary-500 px-2 flex flex-col gap-3 items-center justify-center">
           <TbAlertTriangle className="text-5xl text-secondary-500" />
           <span className="text-gray-900 text-base md:text-xl text-center ">
             Something went wrong {error.message}

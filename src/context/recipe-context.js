@@ -1,78 +1,86 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
+// creating empty values which only helps on auto suggestions by vscode when using this context
 export const RecipeContext = React.createContext({
   query: "",
   setQuery: () => {},
   showModal: null,
   setShowModal: () => {},
-  bookmarItems: [],
-  setBookmarkItems: () => {},
   currentRecipeId: "",
   setCurrentRecipeId: () => {},
+  bookmarkState: {},
+  bookmarkDispatch: () => {},
 });
 
-export const RecipeContextProivder = ({ children }) => {
+const initialBookmarkState = {
+  items: [],
+};
+
+const bookmarkReducer = (state, action) => {
+  if (action.type === "INIT") {
+    return { ...state, items: [...action.payload] };
+  }
+  if (action.type === "ADD") {
+    localStorage.setItem(
+      "bookmark",
+      JSON.stringify([...state.items, action.payload])
+    );
+    return { ...state, items: [...state.items, action.payload] };
+  }
+
+  if (action.type === "REMOVE") {
+    const itemsCopy = [...state.items];
+    const newBookmarkItems = itemsCopy.filter(
+      (bookmark) => bookmark.id !== action.payload
+    );
+    localStorage.setItem("bookmark", newBookmarkItems);
+    return { ...state, items: [...newBookmarkItems] };
+  }
+  return { ...state };
+};
+
+const RecipeContextProivder = ({ children }) => {
+  const [bookmarkState, bookmarkDispatch] = useReducer(
+    bookmarkReducer,
+    initialBookmarkState
+  );
+
   const [query, setQuery] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [bookmarItems, setBookmarkItems] = useState([]);
   const [currentRecipeId, setCurrentRecipeId] = useState();
-  const [acitveModalItem, setActiveModaItem] = useState({
+  const [activeModalItem, setActiveModaItem] = useState({
     form: false,
     bookmark: false,
   });
 
+  // Showing the item in modal on the basis of slected one
   const activeModalItemHandler = (item) => {
     const newObject = {};
-    Object.keys(acitveModalItem).forEach((k) => {
+    Object.keys(activeModalItem).forEach((k) => {
       newObject[k] = false;
     });
     newObject[item] = true;
     setActiveModaItem(newObject);
   };
 
-  const bookmarkHandler = (item) => {
-    if (bookmarItems.length > 0) {
-      const isBookmarked = bookmarItems.find(
-        (bookmark) => bookmark.id === item.id
-      );
-      if (!isBookmarked) {
-        setBookmarkItems((prev) => [...prev, item]);
-        return;
-      }
-      if (isBookmarked) {
-        const bookmarItemsCopy = [...bookmarItems];
-        const newBookmarkItems = bookmarItemsCopy.filter(
-          (bookmark) => bookmark.id !== isBookmarked.id
-        );
-        setBookmarkItems(newBookmarkItems);
-      }
-    } else {
-      setBookmarkItems((prev) => [...prev, item]);
-    }
-  };
-
   useEffect(() => {
-    if (bookmarItems.length > 0)
-      localStorage.setItem("bookmark", JSON.stringify(bookmarItems));
-  }, [bookmarItems]);
-
-  useEffect(() => {
-    const item = localStorage.getItem("bookmark");
-    if (item) {
-      setBookmarkItems(JSON.parse(item));
+    // Taking out all bookmark items if any added
+    const items = localStorage.getItem("bookmark");
+    if (items) {
+      bookmarkDispatch({ type: "INIT", payload: JSON.parse(items) });
     }
   }, []);
 
   const contextValue = {
+    bookmarkState,
+    bookmarkDispatch,
     query,
     setQuery,
     showModal,
     setShowModal,
-    bookmarItems,
-    bookmarkHandler,
     currentRecipeId,
     setCurrentRecipeId,
-    acitveModalItem,
+    activeModalItem,
     activeModalItemHandler,
   };
 
@@ -82,3 +90,5 @@ export const RecipeContextProivder = ({ children }) => {
     </RecipeContext.Provider>
   );
 };
+
+export default RecipeContextProivder;

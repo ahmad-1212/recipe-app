@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { RecipeContext } from "../context/recipe-context";
+import useRecipeContext from "../hooks/useRecipeContext";
 
-const BookMarks = () => {
-  const { bookmarItems, setShowModal, currentRecipeId } =
-    useContext(RecipeContext);
+const BookMarks = ({ setShowSidebar }) => {
+  const { bookmarkState, setShowModal, currentRecipeId } = useRecipeContext();
+  const bookmarItems = bookmarkState.items;
+
+  const handleClick = () => {
+    setShowModal(false);
+    setShowSidebar(false);
+  };
 
   return (
     <>
@@ -28,7 +33,7 @@ const BookMarks = () => {
             >
               <Link
                 to={`/recipes/${item.id}`}
-                onClick={() => setShowModal(false)}
+                onClick={handleClick}
                 className="flex gap-3"
               >
                 <figure className="w-[60px] h-[60px] rounded-full overflow-hidden relative before:w-full before:h-full before:block before:absolute before:top-0 before:left-0 before:bg-gradient-to-br from-primary-500 to-secondary-500 before:opacity-50">
@@ -41,7 +46,7 @@ const BookMarks = () => {
                 <div className="flex flex-col gap-2">
                   <h2 className="text-base uppercase text-secondary-500">
                     {item.title.length > 20
-                      ? item.title.slice(1, 20) + " ..."
+                      ? item.title.slice(0, 20) + " ..."
                       : item.title}
                   </h2>
                   <p className="font-light text-sm">{item.publisher}</p>

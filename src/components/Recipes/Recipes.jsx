@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import { RecipeContext } from "../../context/recipe-context";
+import React from "react";
+import useRecipeContext from "../../hooks/useRecipeContext";
 import Spinner from "../UI/Spinner";
 import RecipeItem from "./RecipeItem";
 
 const Recipes = ({ recipes, Loading }) => {
-  const { query } = useContext(RecipeContext);
+  const recipeContext = useRecipeContext();
+  const { query } = recipeContext;
 
   return (
     <section>

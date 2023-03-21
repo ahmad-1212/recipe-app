@@ -75,3 +75,20 @@ body {
 .scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.input-error {
+  border: 2px solid #ff8585d8;
+}
+
+.form label {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.form button {
+  text-transform: uppercase;
+}
+
+button:disabled {
+  background-color: gray !important;
+}
