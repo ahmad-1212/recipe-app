@@ -36,7 +36,7 @@ To use Recipe App, follow these steps:
 If you would like to deploy Recipe App to a production server, you can run the following command:
 
 Copy code
-`bash
+`
 npm run build `
 
 
