@@ -23,7 +23,7 @@ To use Recipe App, follow these steps:
    ```REACT_APP_RECIPE_API_KEY=your-api-key-goes-here``` <br>
 5. Create a new project on Firebase and retrieve your Firebase configuration values.
 6. In your .env file, assign your Firebase configuration values to the following variables:
- ```REACT_APP_FIREBASE_API_KEY=your-api-key```<br>
+ ```javaScript REACT_APP_FIREBASE_API_KEY=your-api-key```<br>
 ```REACT_APP_FIREBASE_AUTH_DOMAIN=your-auth-domain```<br>
 ```REACT_APP_FIREBASE_PROJECT_ID=your-project-id```<br>
 ```REACT_APP_FIREBASE_STORAGE_BUCKET=your-storage-bucket```<br>
@@ -36,8 +36,8 @@ To use Recipe App, follow these steps:
 If you would like to deploy Recipe App to a production server, you can run the following command:
 
 Copy code
-```bash 
-npm run build```<br>
+```bash npm run build ```
+
 
 This will create a production-ready version of Recipe App in the build directory. You can then deploy this directory to your production server using any hosting service.
 
