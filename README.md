@@ -1,4 +1,4 @@
-# Recipe App using React js and Tailwind CSS
+# Recipe App using React js and Tailwind CSS [DEMO](https://recipe-app-38737.web.app/)
 
 ### Introduction
 Welcome to Recipe App, a web application built using React. This application allows you to easily manage your recipes and keep track of your favorite dishes. With Recipe App, you can create an account, add and remove recipes, add bookmarks, and more.
