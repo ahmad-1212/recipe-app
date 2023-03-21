@@ -24,19 +24,18 @@ To use Recipe App, follow these steps:
 
 
 1. Clone the repository to your local machine using git clone https://github.com/ahmad-1212/recipe-app.git.
-2. 
+ 
 3. Create a .env file in the root of your project directory.
-4. 
+
 5. Generate an API key by visiting https://forkify-api.herokuapp.com/v2 and sign up for a new account if necessary.
-6. 
+
 7. In your .env file, assign your new API key to the REACT_APP_RECIPE_API_KEY variable like so:<br>
-8. 
    ```REACT_APP_RECIPE_API_KEY=your-api-key-goes-here``` <br>
    
 5. Create a new project on Firebase and retrieve your Firebase configuration values.
-6. 
+
 7. In your .env file, assign your Firebase configuration values to the following variables:
-8. 
+
  ``` REACT_APP_FIREBASE_API_KEY=your-api-key```<br>
  
 ```REACT_APP_FIREBASE_AUTH_DOMAIN=your-auth-domain```<br>
@@ -55,6 +54,8 @@ To use Recipe App, follow these steps:
 9. Run the development server using npm start.
 
 11. Open the application in your web browser by navigating to http://localhost:3000.
+
+
 
 If you would like to deploy Recipe App to a production server, you can run the following command:
 
