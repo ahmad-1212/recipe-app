@@ -4,37 +4,34 @@ import { useNavigate } from "react-router-dom";
 const Login = ({ onLogin, isPending, error, user, setShowModal }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const navigate = useNavigate();
 
-  const handleEmail = () => {
+  const handleEmailChange = () => {
     setEmailError(null);
-    setEmailValue(emailRef.current.value);
   };
-  const handlePassword = () => {
+  const handlePasswordChange = () => {
     setPasswordError(null);
-    setPasswordValue(passwordRef.current.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (emailValue.length === 0) {
+    if (emailRef.current.value.length === 0) {
       setEmailError("Enter Email");
     }
-    if (passwordValue.length === 0) {
+    if (passwordRef.current.value.length === 0) {
       setPasswordError("Enter Password");
       return;
     }
 
-    onLogin(emailValue, passwordValue);
+    onLogin(emailRef.current.value, passwordRef.current.value);
   };
 
   useEffect(() => {
     // If login Secceed navigate to home page and hide modal
     if (!isPending && !error && user) {
+      emailRef.current.value = passwordRef.current.value = "";
       setShowModal(false);
       navigate("/");
     }
@@ -58,8 +55,7 @@ const Login = ({ onLogin, isPending, error, user, setShowModal }) => {
           <label htmlFor="email">Email</label>
           <input
             ref={emailRef}
-            value={emailValue}
-            onChange={handleEmail}
+            onChange={handleEmailChange}
             type="email"
             id="email"
             placeholder="Enter your Email"
@@ -71,8 +67,7 @@ const Login = ({ onLogin, isPending, error, user, setShowModal }) => {
           <label htmlFor="password">Password</label>
           <input
             ref={passwordRef}
-            value={passwordValue}
-            onChange={handlePassword}
+            onChange={handlePasswordChange}
             type="password"
             id="password"
             placeholder="Enter your password"

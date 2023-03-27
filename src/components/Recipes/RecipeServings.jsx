@@ -112,9 +112,10 @@ const RecipeServings = ({
         {myRecipe && (
           <li
             onClick={() => deleteDocument(id)}
-            className="ml-auto flex items-center cursor-pointer gap-3"
+            className="ml-auto flex items-center cursor-pointer gap-1"
           >
-            <MdDelete className="text-[red] text-4xl " />
+            <MdDelete className="text-[red] text-2xl " />
+            <span className="uppercase text-xs text-[red]">Delete</span>
           </li>
         )}
 

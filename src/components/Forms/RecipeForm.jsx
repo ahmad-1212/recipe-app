@@ -5,7 +5,6 @@ import { recipeSchema } from "../../schemas";
 
 const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
   const urlInputRef = useRef();
-  const [urlValue, setURLValue] = useState("");
   const ingredientsInputRef = useRef();
   const [ingValue, setIngValue] = useState("");
   const [ingError, setIngError] = useState(null);
@@ -22,7 +21,7 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
     onAddRecipeHandler({
       title: values.title,
       publisher: values.publisher,
-      image_url: urlValue,
+      image_url: urlInputRef.current.value,
       cooking_time: values.prep,
       ingredients: [...ingObj],
       servings: values.servings,
@@ -49,10 +48,11 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
     onSubmit,
   });
 
+  // Reseting the form
   useEffect(() => {
     if (success) {
       resetForm();
-      setURLValue("");
+      urlInputRef.current.value = "";
       setIngObj([]);
     }
   }, [success, resetForm]);
@@ -106,11 +106,6 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
     setIngValue("");
   };
 
-  // Setting url value when changes
-  const handleURLChange = () => {
-    setURLValue(urlInputRef.current.value);
-  };
-
   // Repeated styles
   const styles = "flex flex-col gap-2 mb-3 text-base ";
   const errorStyles = "text-sm text-[#ff8585d8]";
@@ -118,7 +113,7 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
     "border-[1px] text-lg border-gray-700 rounded py-2 px-2 outline-none focus:bg-primary-100 focus:border-secondary-500 placeholder:text-[#c8c4c3] placeholder:font-light font-medium ";
   return (
     <>
-      <h3 className="uppercase font-bold text-secondary-500 font-bold text-center text-2xl mt-8">
+      <h3 className="uppercase text-secondary-500 font-bold text-center text-2xl mt-8">
         Add recipe
       </h3>
 
@@ -147,8 +142,6 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
           <label htmlFor="image-url">Image URL</label>
           <input
             ref={urlInputRef}
-            value={urlValue}
-            onChange={handleURLChange}
             type="url"
             id="image-url"
             placeholder="Image URL"
