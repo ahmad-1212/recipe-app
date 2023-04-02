@@ -6,13 +6,12 @@ import { recipeSchema } from "../../schemas";
 const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
   const urlInputRef = useRef();
   const ingredientsInputRef = useRef();
-  const [ingValue, setIngValue] = useState("");
   const [ingError, setIngError] = useState(null);
-  const [ingObj, setIngObj] = useState([]);
+  const [ingArr, setIngArr] = useState([]);
 
   // Getting all data on submitting form
   const onSubmit = () => {
-    if (ingObj.length < 2) {
+    if (ingArr.length < 2) {
       setIngError("There must be at least two Ingredients");
       return;
     }
@@ -23,7 +22,7 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
       publisher: values.publisher,
       image_url: urlInputRef.current.value,
       cooking_time: values.prep,
-      ingredients: [...ingObj],
+      ingredients: [...ingArr],
       servings: values.servings,
     });
   };
@@ -53,14 +52,13 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
     if (success) {
       resetForm();
       urlInputRef.current.value = "";
-      setIngObj([]);
+      setIngArr([]);
     }
   }, [success, resetForm]);
 
   // Custom Validation: Ingredients input validation onChange
   const handleChangeIngValue = () => {
     const value = ingredientsInputRef.current.value;
-    setIngValue(value);
 
     // validation
     if (value.split(",").length === 3) {
@@ -74,7 +72,6 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
   //  Custom Validation: Input validation onBlur
   const handleIngBlur = () => {
     const value = ingredientsInputRef.current.value;
-    setIngValue(value);
 
     // Conditions
     if (value.length === 0) {
@@ -90,6 +87,7 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
 
   // Adding ing item to ing Obj
   const addItem = () => {
+    const ingValue = ingredientsInputRef.current.value;
     if (ingError) return;
     if (ingValue.length === 0) {
       setIngError("Fill the Input with required data");
@@ -100,11 +98,31 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
       quantity: value[0],
       unit: value[1],
       description: value[2],
+      id: Math.random() * 1000000,
     };
 
-    setIngObj((prev) => [...prev, { ...newObj }]);
-    setIngValue("");
+    setIngArr((prev) => [...prev, { ...newObj }]);
+    ingredientsInputRef.current.value = "";
   };
+
+  // Delete Ing item
+
+  const deletItem = (id) => {
+    const newArr = [...ingArr];
+    const updatedArr = newArr.filter((item) => item.id !== id);
+    setIngArr(updatedArr);
+  };
+
+  useEffect(() => {
+    const beforeUnloadHandler = (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", beforeUnloadHandler);
+
+    return () =>
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
+  }, []);
 
   // Repeated styles
   const styles = "flex flex-col gap-2 mb-3 text-base ";
@@ -211,7 +229,6 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
               ref={ingredientsInputRef}
               onChange={handleChangeIngValue}
               onBlur={handleIngBlur}
-              value={ingValue}
               type="text"
               placeholder="Format: Quantity, Unit, Description"
               className={`${inputStyles} w-5/6 ${ingError && "input-error"}`}
@@ -225,10 +242,21 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
             </button>
           </div>
           {ingError && <p className={errorStyles}>{ingError}</p>}
-          {ingObj?.map((ing, i) => (
-            <div key={i} className="normal-case text-gray-700">
-              <span className="uppercase font-bold">Ingredient</span> {i + 1}:
-              &nbsp; {ing.quantity}, {ing.unit}, {ing.description}
+          {ingArr?.map((ing, i) => (
+            <div
+              key={i}
+              className="flex justify-between py-1 rounded px-3 bg-gray-200"
+            >
+              <div className="normal-case text-gray-700">
+                <span className="uppercase font-bold">Ingredient</span> {i + 1}:
+                &nbsp; {ing.quantity}, {ing.unit}, {ing.description}
+              </div>
+              <div
+                className="cursor-pointer text-xl"
+                onClick={() => deletItem(ing.id)}
+              >
+                &times;
+              </div>
             </div>
           ))}
         </div>

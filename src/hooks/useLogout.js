@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { auth, signOut } from "../firebase/firebase";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 import useAuthContext from "./useAuthContext";
 
 export const useLogout = () => {

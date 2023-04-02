@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Spinner from "../components/UI/Spinner";
 import { TbAlertTriangle } from "react-icons/tb";
 
-const API_KEY = "77d901f8-6f35-4ca5-bcb6-df36e9d83552";
+const API_KEY = process.env.REACT_APP_RECIPE_API_KEY;
 const URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
 
 const Detail = () => {

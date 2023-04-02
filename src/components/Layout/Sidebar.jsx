@@ -1,15 +1,15 @@
-import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Backdrop from "../UI/Backdrop";
 import SidebarItem from "./SidebarItem";
 import { NAV_ITEMS } from "../../constants";
+import { SIDEBAR_VARIANTS } from "../../constants";
+import { SIDEBAR_ITEM_VARIANTS } from "../../constants";
 import { FiLogOut } from "react-icons/fi";
 import { FiLogIn } from "react-icons/fi";
 import useAuthContext from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 import useRecipeContext from "../../hooks/useRecipeContext";
-import { SIDEBAR_VARIANTS } from "../../constants";
-import { SIDEBAR_ITEM_VARIANTS } from "../../constants";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { logout } = useLogout();

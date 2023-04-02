@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
-import Detail from "./pages/Detail";
+import RecipeDetail from "./pages/RecipeDetail";
 import Home from "./pages/Home";
 import Notfound from "./pages/Notfound";
 import AddRecipe from "./pages/AddRecipe";
@@ -34,7 +34,7 @@ const App = () => {
               path="/my-recipes"
               element={user ? <MyRecipes /> : <Navigate to="/" />}
             />
-            <Route path="/recipes/:recipeId" element={<Detail />} />
+            <Route path="/recipes/:recipeId" element={<RecipeDetail />} />
             <Route
               path="/my-recipes/:recipeId"
               element={user ? <MyRecipeDetail /> : <Navigate to="/" />}
