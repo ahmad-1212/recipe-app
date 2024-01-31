@@ -46,7 +46,7 @@ const NavItem = ({ navItem, user }) => {
     );
   }
 
-  // if there is no user and auth is true than it donot return a link
+  // if there is no user and auth is true than it dosenot return a link
 
   if (auth && !user) {
     return;

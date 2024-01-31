@@ -23,30 +23,7 @@ export const useLogin = () => {
       setIsPending(false);
       setError(null);
     } catch (err) {
-      if (err.code === "auth/wrong-password") {
-        setError("Password is Incorrect");
-        setIsPending(false);
-        return;
-      }
-
-      if (err.code === "auth/user-not-found") {
-        setError("Email is Incorrect");
-        setIsPending(false);
-        return;
-      }
-
-      if (err.code === "auth/network-request-failed") {
-        setError("Network Error: Slow Internet Connection!");
-        setIsPending(false);
-        return;
-      }
-
-      if (err.code === "auth/internal-error") {
-        setError("Network Error: No internet connection!");
-        setIsPending(false);
-        return;
-      }
-      setError(err.message);
+      setError("Invalid Email or password!");
       setIsPending(false);
     }
   };

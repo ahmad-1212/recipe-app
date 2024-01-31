@@ -19,6 +19,7 @@ const RecipeServings = ({
   cookingTime,
   onHandleBookmark,
   id,
+  imageName,
   myRecipe,
 }) => {
   const { bookmarkState } = useRecipeContext();
@@ -111,7 +112,7 @@ const RecipeServings = ({
         )}
         {myRecipe && (
           <li
-            onClick={() => deleteDocument(id)}
+            onClick={() => deleteDocument(id, imageName)}
             className="ml-auto flex items-center cursor-pointer gap-1"
           >
             <MdDelete className="text-[red] text-2xl " />

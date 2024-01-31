@@ -4,10 +4,10 @@ import { FiUploadCloud } from "react-icons/fi";
 import { recipeSchema } from "../../schemas";
 
 const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
-  const urlInputRef = useRef();
   const ingredientsInputRef = useRef();
   const [ingError, setIngError] = useState(null);
   const [ingArr, setIngArr] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
 
   // Getting all data on submitting form
   const onSubmit = () => {
@@ -20,7 +20,7 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
     onAddRecipeHandler({
       title: values.title,
       publisher: values.publisher,
-      image_url: urlInputRef.current.value,
+      file: imageFile,
       cooking_time: values.prep,
       ingredients: [...ingArr],
       servings: values.servings,
@@ -51,7 +51,6 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
   useEffect(() => {
     if (success) {
       resetForm();
-      urlInputRef.current.value = "";
       setIngArr([]);
     }
   }, [success, resetForm]);
@@ -157,12 +156,12 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
           )}
         </div>
         <div className={styles}>
-          <label htmlFor="image-url">Image URL</label>
+          <label htmlFor="image-url">Image</label>
           <input
-            ref={urlInputRef}
-            type="url"
-            id="image-url"
-            placeholder="Image URL"
+            type="file"
+            id="image"
+            placeholder="Choose an Image"
+            onChange={(e) => setImageFile(e.target.files[0])}
             required
             className={inputStyles}
           />
@@ -261,24 +260,15 @@ const RecipeForm = ({ onAddRecipeHandler, success, isPending }) => {
           ))}
         </div>
         <div className="flex justify-center">
-          {!isPending && (
-            <button
-              type="submit"
-              className="px-11 py-3 my-6 text-white flex items-center gap-3 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full hover:scale-105 duration-200"
-            >
-              <FiUploadCloud className="text-xl mb-1" />
-              <span>upload</span>
-            </button>
-          )}
-          {isPending && (
-            <button
-              type="submit"
-              className="px-11 opacity-60 py-3 my-6 text-white flex items-center gap-3 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full cursor-none "
-            >
-              <FiUploadCloud className="text-xl mb-1" />
-              <span>uploading...</span>
-            </button>
-          )}
+          <button
+            type="submit"
+            onClick={onSubmit}
+            disabled={isPending}
+            className="flex items-center justify-center  rounded-md px-11 py-3 mb-1 text-white gap-3 bg-gradient-to-br from-primary-500 to-secondary-500 w-full text-center  hover:scale-105 disabled:hover:scale-100 duration-200 disabled:cursor-not-allowed disabled:opacity-80"
+          >
+            <FiUploadCloud className="text-xl" />{" "}
+            {isPending ? "Uploading..." : "Upload"}
+          </button>
         </div>
       </form>
     </>

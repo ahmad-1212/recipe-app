@@ -106,23 +106,13 @@ const SignupForm = ({ onSignup, isPending, error, user, setShowModal }) => {
           )}
         </div>
         <div>
-          {!isPending && (
-            <button
-              type="submit"
-              className="px-11 py-3 mb-1 text-white gap-3 bg-gradient-to-br from-primary-500 to-secondary-500 w-full text-center hover:scale-105 duration-200"
-            >
-              Signup
-            </button>
-          )}
-          {isPending && (
-            <button
-              type="submit"
-              disabled
-              className="px-11 py-3 mb-1 normal-case opacity-60 cursor-none text-white gap-3  bg-gradient-to-br from-primary-500 to-secondary-500  w-full text-center"
-            >
-              Loading...
-            </button>
-          )}
+          <button
+            type="submit"
+            disabled={isPending}
+            className=" rounded-md px-11 py-3 mb-1 text-white gap-3 bg-gradient-to-br from-primary-500 to-secondary-500 w-full text-center  hover:scale-105 disabled:hover:scale-100 duration-200 disabled:cursor-not-allowed disabled:opacity-80"
+          >
+            {isPending ? "Loading..." : "Signup"}
+          </button>
           {error && (
             <p className="text-base text-[#ff0000] text-center mb-3 mt-1">
               {error}

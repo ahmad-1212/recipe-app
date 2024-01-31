@@ -7,6 +7,7 @@ import {
   Timestamp,
   deleteDoc,
 } from "firebase/firestore";
+import { useFirebaseStorage } from "./useFirebaseStorage";
 
 const initialState = {
   document: null,
@@ -63,7 +64,7 @@ export const useFirestore = (collectionName) => {
     firestoreReducer,
     initialState
   );
-
+  const { deleteImage, uploadImage } = useFirebaseStorage();
   // collection reference
   const ref = collection(db, collectionName);
 
@@ -74,19 +75,27 @@ export const useFirestore = (collectionName) => {
 
     try {
       const createdAt = Timestamp.fromDate(new Date());
+      if (doc.file) {
+        const res = await uploadImage(doc.file);
+        doc.image_name = res.name;
+        doc.image_url = res.url;
+        delete doc.file;
+      }
       const addedDoc = await addDoc(ref, { ...doc, createdAt });
 
       dispatchResponse({ type: "ADDED", payload: addedDoc });
     } catch (err) {
+      console.log(err);
       dispatchResponse({ type: "ERROR", payload: err.message });
     }
   };
 
   // Delete a Document
-  const deleteDocument = async (id) => {
+  const deleteDocument = async (id, imageName) => {
     dispatchResponse({ type: "IS_PENDING" });
     try {
       const docRef = doc(ref, id);
+      await deleteImage(imageName);
       await deleteDoc(docRef);
       dispatchResponse({ type: "DELETED" });
     } catch (err) {

@@ -8,6 +8,7 @@ const RecipeDetail = ({ recipe, myRecipe }) => {
   const {
     title,
     id,
+    image_name: imageName,
     image_url: url,
     cooking_time: cookingTime,
     servings: initialServings,
@@ -50,6 +51,7 @@ const RecipeDetail = ({ recipe, myRecipe }) => {
         cookingTime={cookingTime}
         onHandleBookmark={handleBookmark}
         id={id}
+        imageName={imageName}
         myRecipe={myRecipe}
       />
 
